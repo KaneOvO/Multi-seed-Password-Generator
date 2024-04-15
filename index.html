@@ -1,0 +1,102 @@
+<!--The project's reference comes from the password generator in the Edge browser.-->
+<!--Satisfies the additional challenges 2 (providing users with the ability to download the generated password) and 3 (using multiple seeds and allowing users to manipulate them).-->
+<!--Asked ChatGPT about how to customize seeds and learned about the seedrandom.js library and how to use it.-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Multi-seed Password Generator</title>
+  </head>
+  <body>
+    <h2>Multi-seed Password Generator</h2>
+    <label for="length">Please enter password length:</label>
+    <input type="number" id="length" min="4" value="8" /><br /><br />
+
+    <input type="checkbox" id="includeLowercase" checked />
+    <label for="includeLowercase">Include Lowercase Letters</label><br />
+
+    <input type="checkbox" id="includeUppercase" checked />
+    <label for="includeUppercase">Include Uppercase Letters</label><br />
+
+    <input type="checkbox" id="includeSymbols" />
+    <label for="includeSymbols">Include Special Characters</label><br /><br />
+
+    <label for="seedType">Character Type Seed:</label>
+    <input type="number" id="seedType" value="12345" /><br /><br />
+
+    <label for="seedOrder">Character Order Seed:</label>
+    <input type="number" id="seedOrder" value="67890" /><br /><br />
+
+    <button onclick="generatePassword()">Generate Password</button>
+    <p id="result"></p>
+    <a id="downloadLink" style="display: none">Download Password</a>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+    <script>
+      function generatePassword() {
+        const length = parseInt(document.getElementById("length").value);
+        const seedType = parseInt(document.getElementById("seedType").value);
+        const seedOrder = parseInt(document.getElementById("seedOrder").value);
+
+        const includeLowercase =
+          document.getElementById("includeLowercase").checked;
+        const includeUppercase =
+          document.getElementById("includeUppercase").checked;
+        const includeSymbols =
+          document.getElementById("includeSymbols").checked;
+
+        const lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
+        const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const symbols = "!@#$%^&*()_+{}:\"<>?|[];',./`~";
+        const numbers = "0123456789";
+
+        let validChars = "";
+        let password = [];
+
+        // Set the seed for the character type
+        Math.seedrandom(seedType);
+        if (includeLowercase) validChars += lowercaseLetters;
+        if (includeUppercase) validChars += uppercaseLetters;
+        if (includeSymbols) validChars += symbols;
+        validChars += numbers;
+
+        // Check if at least one character type is selected
+        const typesIncluded = [];
+        if (includeLowercase) typesIncluded.push(lowercaseLetters);
+        if (includeUppercase) typesIncluded.push(uppercaseLetters);
+        if (includeSymbols) typesIncluded.push(symbols);
+        typesIncluded.push(numbers); // Always include numbers
+
+        // Add one character from each selected type
+        typesIncluded.forEach((type) => {
+          const temp = type[Math.floor(Math.random() * type.length)];
+          password.push(temp);
+        });
+
+        // Add remaining characters to reach the desired length
+        for (let i = password.length; i < length; i++) {
+          const index = Math.floor(Math.random() * validChars.length);
+          password.push(validChars[index]);
+        }
+
+        // Based on the seedOrder, shuffle the password
+        Math.seedrandom(seedOrder);
+        password = password.sort(() => 0.5 - Math.random());
+
+        const finalPassword = password.join("");
+        document.getElementById("result").innerText =
+          "Generated password: " + finalPassword;
+        createDownloadLink(finalPassword);
+      }
+
+      function createDownloadLink(password) {
+        const link = document.getElementById("downloadLink");
+        link.style.display = "inline";
+        link.href =
+          "data:text/plain;charset=utf-8," + encodeURIComponent(password);
+        link.download = "Password.txt";
+        link.textContent = "Download Password";
+      }
+    </script>
+  </body>
+</html>
