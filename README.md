@@ -1,6 +1,6 @@
 # Multi-seed-Password-Generator
 
-The project's reference comes from the password generator in the Edge browser.
+The a priori object of the project is a password, a string that may contain numbers, lowercase letters, uppercase letters, and symbols.
 
 
 
