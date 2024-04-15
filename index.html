@@ -12,20 +12,20 @@
     <label for="length">Please enter password length:</label>
     <input type="number" id="length" min="4" value="8" /><br /><br />
 
-    <input type="checkbox" id="includeLowercase" checked />
+    <input type="checkbox" id="includeLowercase" />
     <label for="includeLowercase">Include Lowercase Letters</label><br />
 
-    <input type="checkbox" id="includeUppercase" checked />
+    <input type="checkbox" id="includeUppercase" />
     <label for="includeUppercase">Include Uppercase Letters</label><br />
 
     <input type="checkbox" id="includeSymbols" />
-    <label for="includeSymbols">Include Special Characters</label><br /><br />
+    <label for="includeSymbols">Include Symbols</label><br /><br />
 
     <label for="seedType">Character Type Seed:</label>
-    <input type="number" id="seedType" value="12345" /><br /><br />
+    <input type="number" id="seedType" value="1" /><br /><br />
 
     <label for="seedOrder">Character Order Seed:</label>
-    <input type="number" id="seedOrder" value="67890" /><br /><br />
+    <input type="number" id="seedOrder" value="1" /><br /><br />
 
     <button onclick="generatePassword()">Generate Password</button>
     <p id="result"></p>
