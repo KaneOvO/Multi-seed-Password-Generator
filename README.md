@@ -1,6 +1,10 @@
 # Multi-seed-Password-Generator
 
-The a priori object of the project is  the password, a string that may contain numbers, lowercase letters, uppercase letters, and symbols. Ex: peX%6F*"
+The a priori object of the project is  the password, a string that may contain numbers, lowercase letters, uppercase letters, and symbols. 
+
+
+
+Ex: peX%6F*"
 
 
 
